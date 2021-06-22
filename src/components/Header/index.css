@@ -1,0 +1,24 @@
+.header__banner {
+    background: crimson;
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.header__title {
+    color: white;
+    font-size: 6rem;
+    font-family: 'Bebas Neue';
+}
+
+@media (max-width: 441px) {
+    .header__title {
+        font-size: 4rem;
+    }
+  }
+
+.header__search>input {
+    border-radius: 100px !important;
+    height: 4rem;
+}
