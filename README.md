@@ -29,4 +29,4 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `the most challenging part`
 
-The most challenging part for me was the graph because it's a bit difficult to prepare the data for the graph
+The most challenging part for me was the graph because it's a bit difficult to prepare the data for it
