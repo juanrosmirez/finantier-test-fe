@@ -1,79 +1,71 @@
 import React, { useEffect, useState } from 'react';
 import { Loader } from 'semantic-ui-react'
-import ReactHighcharts from 'react-highcharts/ReactHighstock.src'
 
 import { getChartBySymbol, getStockMarketBySymbol } from './services';
-import StatisticActionBodyGroup from './components/StatisticActionBodyGroup';
-import StatisticActionHeaderGroup from './components/StatisticActionHeaderGroup';
+import BodyStatistic from './components/BodyStatistics';
+import HeaderStatistics from './components/HeaderStatistics';
 import Header from './components/Header';
-import { getConfigPrice } from './utils';
 
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 
-const loadingText = 'LOADING...';
-const defaultSymbol = 'tsla';
+const ReactHighstock = require('react-highcharts/ReactHighstock')
 
 const App = () => {
 
   const [symbol, setSymbol] = useState();
-  const [inputSymbol, setInputSymbol] = useState(defaultSymbol);
+  const [symbolInput, setSymbolInput] = useState('tsla');
   const [chart, setChart] = useState();
   const [loading, setLoading] = useState(true);
 
-  const isLoading = loading || !symbol || symbol.header.symbol.value.toLowerCase() !== `(${inputSymbol.toLowerCase()})`;
+  const getYahooFinanceAPI = async (symbol) => {
+    try {
+      setLoading(true);
+
+      const symbolResponse = await getStockMarketBySymbol(symbol);
+      const chartResponse = await getChartBySymbol(symbol);
+
+      setChart(chartResponse);
+      setSymbol(symbolResponse);
+
+      setLoading(false);
+
+    } catch (e) {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
-
-    const getYahooFinanceAPI = async () => {
-      try {
-        setLoading(true);
-
-        const symbolResponse = await getStockMarketBySymbol(inputSymbol);
-        const chartResponse = await getChartBySymbol(inputSymbol);
-
-        setChart(chartResponse);
-        setSymbol(symbolResponse);
-
-        setLoading(false);
-
-      } catch (e) {
-        setLoading(false);
-      }
-    }
-    getYahooFinanceAPI();
-  }, [inputSymbol]);
+    getYahooFinanceAPI('tsla');
+  }, []);
 
   return (
     <div className="app">
 
       {/* BANNER */}
-      <Header title="STOCK MARKET" setInputSymbol={setInputSymbol} inputSymbol={inputSymbol} />
+      <Header title="STOCK MARKET" getYahooFinanceAPI={getYahooFinanceAPI} setSymbolInput={setSymbolInput} symbolInput={symbolInput} />
 
       {/* LOADER */}
-      <Loader size={'big'} active={isLoading}>{loadingText}</Loader>
+      <Loader size={'big'} active={loading}>LOADING...</Loader>
 
       {
-        !isLoading && <>
+        !loading && symbol && chart && <>
           {/* HEADER */}
-          <div className="app__header">
-            <StatisticActionHeaderGroup  {...symbol.header} />
+          < div className="app__header">
+            <HeaderStatistics  {...symbol.header} />
           </div>
 
           {/* BODY */}
           <div className="app__body">
-            <StatisticActionBodyGroup statistics={Object.values(symbol.body)} />
+            <BodyStatistic statistics={Object.values(symbol.body)} />
           </div>
 
           {/* CHART */}
-          {chart &&
-            <div div className="app__chart">
-              <ReactHighcharts config={getConfigPrice(chart, symbol.header.shortName.value)} />
-            </div>}
+          <div className="app__chart">
+            <ReactHighstock config={chart} />
+          </div>
         </>
       }
-
-
 
     </div >
   );

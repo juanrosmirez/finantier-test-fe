@@ -8,8 +8,7 @@ import Grid from '@material-ui/core/Grid';
 
 import './index.css'
 
-
-const Header = ({ title = "STOCK MARKET", setInputSymbol }) => {
+const Header = ({ title = "STOCK MARKET", setSymbolInput, getYahooFinanceAPI, symbolInput }) => {
 
     return (
         <div className="header__banner">
@@ -20,11 +19,11 @@ const Header = ({ title = "STOCK MARKET", setInputSymbol }) => {
                 alignItems="center"
                 spacing="3"
             >
-                <Grid style={headerGridStyle} xs={12} md={6} lg={4} item>
+                <Grid style={gridStyle} xs={12} md={6} lg={4} item>
                     <span className="header__title">{title}</span>
                 </Grid>
-                <Grid style={headerGridStyle} xs={12} md={6} lg={8} item>
-                    <Input onChange={(e) => setInputSymbol(e.target.value)} className="header__search" size='big' icon='search' placeholder='Search...' />
+                <Grid style={gridStyle} xs={12} md={6} lg={8} item>
+                    <Input onChange={(e) => setSymbolInput(e.target.value)} className="header__search" size='big' action={{ icon: 'search', onClick: () => getYahooFinanceAPI(symbolInput) }} placeholder='Insert Symbol...' />
                 </Grid>
             </Grid >
         </div >
@@ -32,7 +31,7 @@ const Header = ({ title = "STOCK MARKET", setInputSymbol }) => {
     );
 }
 
-const headerGridStyle = {
+const gridStyle = {
     marginTop: "1rem",
     display: "flex",
     justifyContent: "center"

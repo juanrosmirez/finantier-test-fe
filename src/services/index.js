@@ -1,9 +1,12 @@
+import { getConfigPrice } from '../utils';
+
 const axios = require('axios');
 
-const API_KEY = `b8ae2dd2e5msh0d1bdded3918dc5p1e4553jsndf4838a27cf5`;
+const API_KEY = `d9f059e70emsh890c52a47cb2b2fp16678fjsn2f3d268190cf`;
 const BASE_API = `https://apidojo-yahoo-finance-v1.p.rapidapi.com`;
 
 const HOST = `apidojo-yahoo-finance-v1.p.rapidapi.com`;
+
 
 const axiosYahooFinanceAPI = axios.create({
     baseURL: BASE_API,
@@ -16,14 +19,14 @@ const axiosYahooFinanceAPI = axios.create({
 
 const getStockMarketBySymbol = async (symbol = 'tsla') => {
 
-    const symbolQuery = symbol !== '' ? symbol : 'tsla';
+    const defaultSymbol = symbol !== '' ? symbol : 'tsla';
 
-    return await axiosYahooFinanceAPI.get(`/stock/v2/get-summary?symbol=${symbolQuery}`)
-        .then(function (stockMarketInfo) {
+    return await axiosYahooFinanceAPI.get(`/stock/v2/get-summary?symbol=${defaultSymbol}`)
+        .then(function (stockMarket) {
             let symbolResponse;
-            if (stockMarketInfo && Object.entries(stockMarketInfo.data)) {
+            if (stockMarket && Object.entries(stockMarket.data)) {
 
-                const { price, summaryDetail } = stockMarketInfo.data;
+                const { price, summaryDetail } = stockMarket.data;
                 const regularMarketChangeIsPositive = price.regularMarketChange.raw > 0 ? '+' : '';
 
                 symbolResponse = {
@@ -55,22 +58,26 @@ const getStockMarketBySymbol = async (symbol = 'tsla') => {
 
 const getChartBySymbol = async (symbol = 'tsla', interval = '60m', range = '3mo') => {
 
-    const symbolQuery = symbol !== '' ? symbol : 'tsla';
+    const defaultSymbol = symbol !== '' ? symbol : 'tsla';
 
-    return await axiosYahooFinanceAPI.get(`/stock/v2/get-chart?symbol=${symbolQuery}&interval=${interval}&range=${range}`)
+    return await axiosYahooFinanceAPI.get(`/stock/v2/get-chart?symbol=${defaultSymbol}&interval=${interval}&range=${range}`)
         .then(function (stockMarketInfo) {
+
             const timestamp = stockMarketInfo.data.chart.result[0].timestamp;
             const open = stockMarketInfo.data.chart.result[0].indicators.quote[0].open;
 
             let priceData = [];
-            for (let index = 0; index < timestamp.length; index++) {
-                priceData.push([timestamp[index] * 1000, open[index]])
+
+            if (timestamp) {
+                for (let index = 0; index < timestamp.length; index++) {
+                    priceData.push([timestamp[index] * 1000, open[index]])
+                }
             }
 
-            return priceData;
+            return getConfigPrice(priceData);
         })
         .catch(function (error) {
-            console.log(error.response);
+            console.log(error);
         })
 };
 

@@ -4,7 +4,7 @@ import { Statistic } from 'semantic-ui-react'
 import Grid from '@material-ui/core/Grid';
 
 
-const StatisticActionBodyGroup = ({ statistics }) => (
+const BodyStatistics = ({ statistics }) => (
   <Grid container>
     {statistics.map((statistic) => {
       return (
@@ -24,4 +24,4 @@ const statisticStyle = {
   paddingTop: "2rem"
 }
 
-export default StatisticActionBodyGroup 
+export default BodyStatistics 

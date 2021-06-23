@@ -1,7 +1,7 @@
 import React from 'react'
 import { Statistic } from 'semantic-ui-react'
 
-const StatisticActionHeaderGroup = ({ shortName, symbol, regularMarketPrice, regularMarketChange, regularMarketChangePercent }) => (
+const HeaderStatistics = ({ shortName, symbol, regularMarketPrice, regularMarketChange, regularMarketChangePercent }) => (
   <>
     <div>
       <Statistic value={shortName.value} size={shortName.size} inverted />
@@ -19,4 +19,4 @@ const StatisticActionHeaderGroup = ({ shortName, symbol, regularMarketPrice, reg
   </>
 )
 
-export default StatisticActionHeaderGroup 
+export default HeaderStatistics 

@@ -22,3 +22,8 @@
     border-radius: 100px !important;
     height: 4rem;
 }
+
+.header__search>button {
+    border-radius: 0 25px 25px 0 !important;
+    height: 4rem;
+}
