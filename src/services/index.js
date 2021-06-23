@@ -2,7 +2,7 @@ import { getConfigPrice } from '../utils';
 
 const axios = require('axios');
 
-const API_KEY = `d9f059e70emsh890c52a47cb2b2fp16678fjsn2f3d268190cf`;
+const API_KEY = `49ab7201c6msh82d57eef15e358dp1c2dfdjsn0dbc7c3a2c82`;
 const BASE_API = `https://apidojo-yahoo-finance-v1.p.rapidapi.com`;
 
 const HOST = `apidojo-yahoo-finance-v1.p.rapidapi.com`;

@@ -23,7 +23,7 @@ const Header = ({ title = "STOCK MARKET", setSymbolInput, getYahooFinanceAPI, sy
                     <span className="header__title">{title}</span>
                 </Grid>
                 <Grid style={gridStyle} xs={12} md={6} lg={8} item>
-                    <Input onChange={(e) => setSymbolInput(e.target.value)} className="header__search" size='big' action={{ icon: 'search', onClick: () => getYahooFinanceAPI(symbolInput) }} placeholder='Insert Symbol...' />
+                    <Input onChange={(e) => setSymbolInput(e.target.value)} className="header__search" size='big' action={{ icon: 'search', onClick: () => getYahooFinanceAPI(symbolInput) }} placeholder='Type a Symbol...' />
                 </Grid>
             </Grid >
         </div >
